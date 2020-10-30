@@ -1,0 +1,16 @@
+cbm_hbi_hbi                                       30-Oct-2020 19:57:20
+Running hierarchical bayesian inference (HBI)...
+
+HBI has been initialized according to
+	.	.	. 
+Number of samples: 35
+Number of models: 3
+======================================================================
+Iteration 01
+Iteration 02
+	model frequencies (percent)
+	model 1: 64.1| model 2: 1.1| model 3: 34.8| 
+                                                           dL:   22.14
+                                                           dm:   35.87
+                                                           dx:    0.00
+                                                          Converged :]
