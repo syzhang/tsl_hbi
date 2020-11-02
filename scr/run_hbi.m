@@ -5,11 +5,18 @@ function [] = run_hbi(data_path, model_str)
     fdata = load(data_path);
     data  = fdata.subj;
    
-    % add cmb/codes to path (different on other machiens)
-    addpath(fullfile('..','..','..','MATLAB','cbm','codes'));
-    addpath(fullfile('..','..','..','MATLAB','MinimalTransitionProbsModel','IdealObserversCode'));
+    % add cmb/codes to path (personal machine)
+    % addpath(fullfile('..','..','..','MATLAB','cbm','codes'));
+    % addpath(fullfile('..','..','..','MATLAB','MinimalTransitionProbsModel','IdealObserversCode'));
+
+    % add cmb/codes to path (cluster)
+    addpath(fullfile('..','..','misc_repos','cbm','codes'));
+    addpath(fullfile('..','..','misc_repos','MinimalTransitionProbsModel','IdealObserversCode'));
+
+    % turn off warnings
     rmpath('folderthatisnotonpath'); % suppress matlab warnings
     warning('off', 'MATLAB:rankDeficientMatrix')
+    
     % run model
     fname_save = fullfile('.', 'output', ['lap_', model_str, '.mat']);
     if strcmp(model_str, 'random')

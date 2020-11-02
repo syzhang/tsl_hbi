@@ -14,7 +14,7 @@ function [loglik] = model_io_jump(parameters, subject)
     in.jump = 1;
     in.s = seq;
     in.opt.pJ = pj;
-    in.verbose = 1;
+    in.verbose = 0;
 
     % IO probs
     out = IdealObserver(in);
