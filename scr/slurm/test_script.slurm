@@ -17,7 +17,7 @@
 #SBATCH --nodes=1
 #! How many (MPI) tasks will there be in total? (<= nodes*32)
 #! The skylake/skylake-himem nodes have 32 CPUs (cores) each.
-#SBATCH --ntasks=16
+#SBATCH --ntasks=32
 #! How much wallclock time will be required?
 #SBATCH --time=01:00:00
 #! What types of email messages do you wish to receive?
@@ -30,6 +30,6 @@
 #SBATCH -p skylake
 
 module purge
-module load rhel7/default-peta4 matlab
+module load rhel7/default-peta4-ompi matlab
 
 matlab -nodisplay -r "parfor_run_hbi('../data/fmri_behavioural.mat'); quit"

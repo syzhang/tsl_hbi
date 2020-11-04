@@ -13,10 +13,8 @@ function [] = parfor_run_hbi(data_path)
     data  = fdata.subj;
     sj_n = length(data);
 
-    % set config
-    pconfig = struct('numinit', 1000);
-
-    parfor (n = 1:sj_n, 16) %max 16 cores
+    % parfor (n = 1:sj_n, 16) %max 16 cores
+    parfor (n = 1:12, 12) %max 16 cores
         % the input data should be the data of subject n
         data_subj = data(n);
 
@@ -28,6 +26,6 @@ function [] = parfor_run_hbi(data_path)
         fname_sj = ['lap_io_jump', num2str(n), '.mat'];
         fname_mod_subj = ['./output/lap_subjects_io/',fname_sj];
 
-        cbm_lap(data_subj, @model_io_jump, prior, fname_mod_subj, pconfig);
+        cbm_lap(data_subj, @model_io_jump, prior, fname_mod_subj, struct('numinit', 1000));
     end
 end
