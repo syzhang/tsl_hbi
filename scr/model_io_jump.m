@@ -15,21 +15,11 @@ function [loglik] = model_io_jump(parameters, subject)
     in.s = seq;
     in.opt.pJ = pj;
     in.verbose = 0;
+    in.opt.pgrid = 0:0.05:1; % reduce from 100 to 20 speed up
 
     % IO probs
     out = IdealObserver(in);
-    p1_mean = out.p1_mean;
-
-    % slice p to match actual ratings
-    T = size(seq, 1);
-    p = nan(T, 1);
-    for t = 1:T
-        if seq(t) == 1
-            p(t) = p1_mean(t);
-        elseif seq(t) == 2
-            p(t) = 1 - p1_mean(t);
-        end
-    end
+    p = out.p1_mean; % prob given current stim
 
     % regress
     BIC = regress_prob(y, p, sess, parameters); 

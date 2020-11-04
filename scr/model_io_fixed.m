@@ -1,9 +1,10 @@
 function [loglik] = model_io_fixed(parameters, subject)
 % IO model with fixed window
 
-    nd_win = parameters(1); % normally distributed
-    win = round(exp(nd_win)); % window length (positive and integer)
-    nd_p1 = parameters(2);
+    % nd_win = parameters(1); % normally distributed
+    % win = round(exp(nd_win)); % window length (positive and integer)
+    win = 10; % fixed window length for speed
+    nd_p1 = parameters(1);
     p1 = 1 / (1 + exp(-nd_p1)); 
 
     % unpack data
@@ -21,18 +22,7 @@ function [loglik] = model_io_fixed(parameters, subject)
 
     % IO probs
     out = IdealObserver(in);
-    p1_mean = out.p1_mean;
-
-    % slice p to match actual ratings
-    T = size(seq, 1);
-    p = nan(T, 1);
-    for t = 1:T
-        if seq(t) == 1
-            p(t) = p1_mean(t);
-        elseif seq(t) == 2
-            p(t) = 1 - p1_mean(t);
-        end
-    end
+    p = out.p1_mean; % prediction given current stim
 
     % regress
     BIC = regress_prob(y, p, sess, parameters); 
