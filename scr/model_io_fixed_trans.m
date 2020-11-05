@@ -10,7 +10,7 @@ function [loglik] = model_io_fixed_trans(parameters, subject)
     % unpack data
     seq = subject.seq; % 1 for l, 2 for h
     sess = subject.session; % sessions
-    y = subject.rating; % subject ratings
+    y = subject.p1; % subject ratings
 
     % observer definition
     in.learned = 'transition';

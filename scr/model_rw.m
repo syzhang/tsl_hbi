@@ -8,7 +8,7 @@ function [loglik] = model_rw(parameters, subject)
     % unpack data
     seq = subject.seq; % 1 for l, 2 for h
     sess = subject.session; % sessions
-    y = subject.rating; % subject ratings
+    y = subject.p1; % subject ratings
 
     % number of trials
     T = size(seq, 1);
@@ -18,19 +18,13 @@ function [loglik] = model_rw(parameters, subject)
     V_rec = [];
     for t = 1:T
         V_rec(t) = V;
-        r = seq(t)-1; % high=1, low=0
+        if seq(t)==1
+            r = 1; % low pain=reward
+        else
+            r = 0;
+        end
         V = V + alph * (r - V);
     end
-
-    % normalise values to probs
-    % p = nan(T, 1);
-    % for t = 1:T
-    %     if seq(t) == 1 % low
-    %         p(t) = 1-V_rec(t);
-    %     else %high
-    %         p(t) = V_rec(t);
-    %     end
-    % end
     p = V_rec;
 
     % regress

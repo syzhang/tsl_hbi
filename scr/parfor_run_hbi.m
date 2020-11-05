@@ -25,15 +25,15 @@ function [] = parfor_run_hbi(data_path, model_str)
         
         if strcmp(model_str, 'io_jump_trans')
             prior = struct('mean', [-4],'variance',5); 
-            cbm_lap(data_subj, @model_io_jump_trans, prior, fname_mod_subj, struct('numinit', 500));
+            cbm_lap(data_subj, @model_io_jump_trans, prior, fname_mod_subj, struct('numinit', 100));
         elseif strcmp(model_str, 'io_jump_freq')
             prior = struct('mean', [0],'variance',5); 
-            cbm_lap(data_subj, @model_io_jump_freq, prior, fname_mod_subj, struct('numinit', 1000));
+            cbm_lap(data_subj, @model_io_jump_freq, prior, fname_mod_subj, struct('numinit', 500));
         elseif strcmp(model_str, 'io_fixed_freq')
             prior = struct('mean', [0],'variance',5); 
-            cbm_lap(data_subj, @model_io_fixed_freq, prior, fname_mod_subj, struct('numinit', 1000));
+            cbm_lap(data_subj, @model_io_fixed_freq, prior, fname_mod_subj, struct('numinit', 500));
         elseif strcmp(model_str, 'io_fixed_trans')
             prior = struct('mean', [-4],'variance',5); 
-            cbm_lap(data_subj, @model_io_fixed_trans, prior, fname_mod_subj, struct('numinit', 1000));
+            cbm_lap(data_subj, @model_io_fixed_trans, prior, fname_mod_subj, struct('numinit', 500));
         end
 end

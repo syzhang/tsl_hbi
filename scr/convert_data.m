@@ -14,7 +14,7 @@ function [] = convert_data(csv_path)
         sj = subj_all(i);
         df_sj = T(T.subject==sj,:);
         subj{subj_n}.seq = df_sj.seq;
-        subj{subj_n}.rating = df_sj.obs_p;
+        subj{subj_n}.p1 = df_sj.obs_p1;
         subj{subj_n}.session = df_sj.session;
         subj_n = subj_n + 1;
     end

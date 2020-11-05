@@ -29,6 +29,12 @@ function [] = run_hbi(data_path, model_str)
     elseif strcmp(model_str, 'rw')
         prior = struct('mean', [0],'variance',5);
         cbm_lap(data, @model_rw, prior, fname_save, struct('numinit', 1000));
+    elseif strcmp(model_str, 'wsls')
+        prior = struct('mean', [0],'variance',5);
+        cbm_lap(data, @model_wsls, prior, fname_save, struct('numinit', 1000));
+    elseif strcmp(model_str, 'ck')
+        prior = struct('mean', [0, 0],'variance',5);
+        cbm_lap(data, @model_ck, prior, fname_save, struct('numinit', 1000));
     end
     
 end

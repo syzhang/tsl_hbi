@@ -8,7 +8,7 @@ function [loglik] = model_random(parameters, subject)
     % unpack data
     seq = subject.seq; % 1 for l, 2 for h
     sess = subject.session; % sessions
-    y = subject.rating; % subject ratings
+    y = subject.p1; % subject ratings
 
     % number of trials
     T = size(seq, 1);
