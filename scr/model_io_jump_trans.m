@@ -1,4 +1,4 @@
-function [loglik] = model_io_jump(parameters, subject)
+function [loglik] = model_io_jump_trans(parameters, subject)
 % IO model with jumps
 
     nd_pj = parameters(1); % normally distributed

@@ -1,5 +1,5 @@
-function [loglik] = model_io_fixed(parameters, subject)
-% IO model with fixed window
+function [loglik] = model_io_fixed_trans(parameters, subject)
+% IO model with no jump, learning transition
 
     % nd_win = parameters(1); % normally distributed
     % win = round(exp(nd_win)); % window length (positive and integer)
@@ -13,12 +13,13 @@ function [loglik] = model_io_fixed(parameters, subject)
     y = subject.rating; % subject ratings
 
     % observer definition
-    in.learned = 'frequency';
+    in.learned = 'transition';
     in.jump = 0;
     in.opt.MemParam = {'Limited', win};
     in.s = seq;
     in.priorp1 = [p1, 1-p1];
     in.verbose = 0;
+    in.opt.pgrid = 0:0.05:1; % reduce from 100 to 20 speed up
 
     % IO probs
     out = IdealObserver(in);

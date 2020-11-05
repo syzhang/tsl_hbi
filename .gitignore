@@ -1,1 +1,4 @@
 *.out
+matlab.e*
+matlab.o*
+scr/output/lap_*/
