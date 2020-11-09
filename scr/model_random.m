@@ -26,7 +26,7 @@ function [loglik] = model_random(parameters, subject)
     end
 
     % regress
-    BIC = regress_prob(y, p, sess, parameters); 
+    BIC = regress_prob(y, p(:), sess, parameters); 
     loglik = -BIC; % negative BIC=loglik
 
 end

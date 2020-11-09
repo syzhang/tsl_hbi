@@ -1,4 +1,4 @@
-function [] = parfor_run_hbi(data_path, model_str)
+function [] = parfor_run_hbi(data_path, model_str, dataset)
 % parfor loop through subjects in cluster
 
     % add cmb/io to path
@@ -7,7 +7,11 @@ function [] = parfor_run_hbi(data_path, model_str)
     
     % create a directory for individual output files:
     dir_name = ['lap_subjects_', model_str];
-    mkdir(['./output/', dir_name]);
+    if strcmp(dataset, 'fmri')
+        mkdir(['./output/', dir_name]);
+    else
+        mkdir(['./output_practice/', dir_name]);
+    end
 
     % load data
     fdata = load(data_path);
@@ -21,8 +25,12 @@ function [] = parfor_run_hbi(data_path, model_str)
 
         % output file
         fname_sj = ['lap_', num2str(n), '.mat'];
-        fname_mod_subj = ['./output/',dir_name,'/',fname_sj];
-        
+        if strcmp(dataset, 'fmri')
+            fname_mod_subj = ['./output/',dir_name,'/',fname_sj];
+        else
+            fname_mod_subj = ['./output_practice/',dir_name,'/',fname_sj];
+        end
+
         if strcmp(model_str, 'io_jump_trans')
             prior = struct('mean', [-4],'variance',5); 
             cbm_lap(data_subj, @model_io_jump_trans, prior, fname_mod_subj, struct('numinit', 100));
@@ -35,5 +43,17 @@ function [] = parfor_run_hbi(data_path, model_str)
         elseif strcmp(model_str, 'io_fixed_trans')
             prior = struct('mean', [-4],'variance',5); 
             cbm_lap(data_subj, @model_io_fixed_trans, prior, fname_mod_subj, struct('numinit', 500));
+        elseif strcmp(model_str, 'io_jump_trans_std')
+                prior = struct('mean', [-4],'variance',5); 
+                cbm_lap(data_subj, @model_io_jump_trans_std, prior, fname_mod_subj, struct('numinit', 100));
+        elseif strcmp(model_str, 'io_jump_freq_std')
+            prior = struct('mean', [0],'variance',5); 
+            cbm_lap(data_subj, @model_io_jump_freq_std, prior, fname_mod_subj, struct('numinit', 500));
+        elseif strcmp(model_str, 'io_fixed_freq_std')
+            prior = struct('mean', [0],'variance',5); 
+            cbm_lap(data_subj, @model_io_fixed_freq_std, prior, fname_mod_subj, struct('numinit', 500));
+        elseif strcmp(model_str, 'io_fixed_trans_std')
+            prior = struct('mean', [-4],'variance',5); 
+            cbm_lap(data_subj, @model_io_fixed_trans_std, prior, fname_mod_subj, struct('numinit', 500));
         end
 end

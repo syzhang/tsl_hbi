@@ -1,4 +1,4 @@
-function [loglik] = model_io_jump_trans(parameters, subject)
+function [loglik] = model_io_jump_trans2(parameters, subject)
 % IO model with jumps
 
     nd_pj = parameters(1); % normally distributed
@@ -19,7 +19,7 @@ function [loglik] = model_io_jump_trans(parameters, subject)
 
     % IO probs
     out = IdealObserver(in);
-    p = out.p1_mean(:); % prob given current stim
+    p = out.p1_mean; % prob given current stim
 
     % regress
     BIC = regress_prob(y, p, sess, parameters); 

@@ -20,6 +20,7 @@ function [] = convert_data(csv_path)
     end
 
     % save data
-    save('../data/fmri_behavioural.mat', 'subj');
+    % save('../data/fmri_behavioural.mat', 'subj');
+    save('../data/practice_behavioural.mat', 'subj');
     
 end

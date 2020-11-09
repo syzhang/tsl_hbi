@@ -31,7 +31,7 @@ function [loglik] = model_wsls(parameters, subject)
     end
 
     % regress
-    BIC = regress_prob(y, p1, sess, parameters);
+    BIC = regress_prob(y, p1(:), sess, parameters);
     loglik = -BIC; % negative BIC=loglik
 
 end

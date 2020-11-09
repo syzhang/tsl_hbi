@@ -1,5 +1,5 @@
-function [loglik] = model_io_jump_trans(parameters, subject)
-% IO model with jumps
+function [loglik] = model_io_jump_freq_std(parameters, subject)
+% IO model with jumps, using std and prob in regression
 
     nd_pj = parameters(1); % normally distributed
     pj = 1 / (1 + exp(-nd_pj)); % jump prob (positive and integer)
@@ -10,7 +10,7 @@ function [loglik] = model_io_jump_trans(parameters, subject)
     y = subject.p1; % subject ratings
 
     % observer definition
-    in.learned = 'transition';
+    in.learned = 'frequency';
     in.jump = 1;
     in.s = seq;
     in.opt.pJ = pj;
@@ -19,7 +19,7 @@ function [loglik] = model_io_jump_trans(parameters, subject)
 
     % IO probs
     out = IdealObserver(in);
-    p = out.p1_mean(:); % prob given current stim
+    p = [out.p1_mean(:), out.p1_sd(:)]; % prob given current stim and surprise
 
     % regress
     BIC = regress_prob(y, p, sess, parameters); 

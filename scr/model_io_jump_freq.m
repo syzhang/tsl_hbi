@@ -19,7 +19,7 @@ function [loglik] = model_io_jump_freq(parameters, subject)
 
     % IO probs
     out = IdealObserver(in);
-    p = out.p1_mean; % prob given current stim
+    p = out.p1_mean(:); % prob given current stim
 
     % regress
     BIC = regress_prob(y, p, sess, parameters); 
