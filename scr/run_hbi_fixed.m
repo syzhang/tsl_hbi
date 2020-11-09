@@ -19,19 +19,26 @@ function [] = run_hbi_fixed(data_path, model_str, dataset)
         fname_save = fullfile('.', 'output_practice', ['lap_', model_str, '.mat']);
     end
 
-    wind_list = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,20,30,50,100];
+    wind_list = [0:30,40:10:100,150,200];
     deca_list = wind_list;
     parameters = [0];
     loglik_mat = [];
-    if strcmp(model_str, 'fixed_freq_fit')
-        for i=1:length(wind_list)
-            for j=1:length(deca_list)
-                for k=1:length(data)
-                    loglik_mat(i,j,k) = model_io_fixed_freq_fit(parameters, data{k}, wind_list(i), deca_list(j));
+    for i=1:length(wind_list)
+        for j=1:length(deca_list)
+            tmp = 0.;
+            for k=1:length(data)
+                if strcmp(model_str, 'fixed_freq_fit')
+                    tmp = tmp + model_io_fixed_freq_fit(parameters, data{k}, wind_list(i), deca_list(j));
+                elseif strcmp(model_str, 'fixed_trans_fit')
+                    tmp = tmp + model_io_fixed_trans_fit(parameters, data{k}, wind_list(i), deca_list(j));
                 end
+                loglik_mat(i,j) = tmp/length(data);
             end
         end
-        save(fname_save, loglik_mat);
     end
-    
+    save(fname_save, 'loglik_mat');
+    % work out max loglik params
+    maxMatrix = max(loglik_mat(:));
+    [r,c] = find(loglik_mat==maxMatrix);
+    fprintf('Max loglik params: window = %d, decay = %d\n', wind_list(r), deca_list(c));
 end
