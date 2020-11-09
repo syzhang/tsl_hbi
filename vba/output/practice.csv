@@ -1,0 +1,9 @@
+model_name,exceedance_prob,protected_exceedance_prob
+ck,0,0.123075977663776
+random,0.1529,0.125429441785445
+rw,0,0.123075977663776
+subjects_io_fixed_freq,0.04075,0.123703208945385
+subjects_io_fixed_trans,0.016,0.123322252522813
+subjects_io_jump_freq,0.68991,0.133695195663651
+subjects_io_jump_trans,0.09528,0.124542544449339
+wsls,0.00516,0.123155401305815
