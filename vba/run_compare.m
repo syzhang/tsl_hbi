@@ -1,7 +1,6 @@
 function [ep, pep] = run_compare(output_dir)
 % run function compare_bms
 % output_dir - output dir of lap_*.mat
-% plot_bool - plot output or not
 
     % list dir
     wildcard_str = 'lap*.mat';
@@ -16,7 +15,8 @@ function [ep, pep] = run_compare(output_dir)
     end
 
     % BMS
-    [posterior, out] = compare_bms(lap_paths);
+    options = [];
+    [posterior, out] = compare_bms(lap_paths, options);
     % exceedance prob
     ep = out.ep;
     % protected ep

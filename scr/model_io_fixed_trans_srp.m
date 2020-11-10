@@ -1,9 +1,6 @@
 function [loglik] = model_io_fixed_trans_srp(parameters, subject)
 % IO model with no jump, learning transition
 
-    % nd_win = parameters(1); % normally distributed
-    % win = round(exp(nd_win)); % window length (positive and integer)
-    win = 10; % fixed window length for speed
     nd_p1 = parameters(1);
     p1 = 1 / (1 + exp(-nd_p1)); 
 
@@ -15,7 +12,9 @@ function [loglik] = model_io_fixed_trans_srp(parameters, subject)
     % observer definition
     in.learned = 'transition';
     in.jump = 0;
-    in.opt.MemParam = {'Limited', win};
+    win = 15; % fixed window length for speed
+    deca = 5; % decay window length
+    in.opt.MemParam = {'Limited', win, 'Decay', deca};
     in.s = seq;
     in.priorp1 = [p1, 1-p1];
     in.verbose = 0;

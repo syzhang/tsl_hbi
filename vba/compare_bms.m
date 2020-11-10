@@ -1,4 +1,4 @@
-function [posterior, out] = compare_bms(lap_names)
+function [posterior, out] = compare_bms(lap_names, options)
 % bayesian model selection given lap files
 % lap_names: cell of lap file path
     
@@ -17,5 +17,9 @@ function [posterior, out] = compare_bms(lap_names)
     end
 
     % run compare
-    [posterior,out] = VBA_groupBMC(evidence_mat);
+    if length(options)>0 % family
+        [posterior,out] = VBA_groupBMC(evidence_mat, options);
+    else
+        [posterior,out] = VBA_groupBMC(evidence_mat);
+    end
 end
