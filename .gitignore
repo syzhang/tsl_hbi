@@ -1,5 +1,5 @@
 *.out
 matlab.e*
 matlab.o*
-scr/output/lap_*/
-scr/output_practice/lap_*/
+scr*/output/lap_*/
+scr*/output_practice/lap_*/

@@ -21,6 +21,8 @@ function [ep, pep, fep] = run_compare_family(output_dir)
 
     % BMS
     [posterior, out] = compare_bms(lap_paths, options);
+    % model frequency
+    f = out.Ef;
     % exceedance prob
     ep = out.ep;
     % protected ep
@@ -28,9 +30,20 @@ function [ep, pep, fep] = run_compare_family(output_dir)
     % family frequency and exceedance prob
     ff = out.families.Ef;
     fep = out.families.ep;
+
+    % determine family output
+    fam = zeros(length(lap_paths), 1);
+    ff_fam = fam;
+    fep_fam = fam;
+    for i=1:numel(options.families)
+        idx = options.families{i};
+        fam(idx) = i;
+        ff_fam(idx) = ff(i);
+        fep_fam(idx) = fep(i);
+    end
     
     % save output
-    T = table(lap_names', ep', pep', 'VariableNames',{'model_name','exceedance_prob', 'protected_exceedance_prob'});
+    T = table(lap_names', f(:), ep(:), pep(:), fam(:), ff_fam(:), fep_fam(:), 'VariableNames',{'model_name','model_frequency','exceedance_prob', 'protected_exceedance_prob','families', 'family_frequency', 'family_exceedance_prob'});
     if contains(output_dir, 'practice')
         writetable(T,'./output/practice_family.csv')
     else

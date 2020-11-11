@@ -17,16 +17,26 @@ function [ep, pep] = run_compare(output_dir)
     % BMS
     options = [];
     [posterior, out] = compare_bms(lap_paths, options);
+    % model frequency
+    f = out.Ef;
     % exceedance prob
     ep = out.ep;
     % protected ep
     pep = (1-out.bor)*out.ep + out.bor/length(out.ep);
 
     % save output
-    T = table(lap_names', ep', pep', 'VariableNames',{'model_name','exceedance_prob', 'protected_exceedance_prob'});
+    T = table(lap_names', f(:), ep(:), pep(:), 'VariableNames',{'model_name','model_frequency','exceedance_prob', 'protected_exceedance_prob'});
     if contains(output_dir, 'practice')
         writetable(T,'./output/practice.csv')
     else
         writetable(T,'./output/fmri.csv')
+    end
+
+    % save subject stats
+    TT = array2table(posterior.r','VariableNames',lap_names);
+    if contains(output_dir, 'practice')
+        writetable(TT,'./output/practice_subject.csv')
+    else
+        writetable(TT,'./output/fmri_subject.csv')
     end
 end

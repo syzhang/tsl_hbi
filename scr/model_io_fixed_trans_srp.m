@@ -12,8 +12,13 @@ function [loglik] = model_io_fixed_trans_srp(parameters, subject)
     % observer definition
     in.learned = 'transition';
     in.jump = 0;
-    win = 15; % fixed window length for speed
-    deca = 5; % decay window length
+    if max(sess)<10 % fmri
+        win = 17; % fixed window length for speed
+        deca = 6; % decay window length
+    else % practice
+        win = 21; % fixed window length for speed
+        deca = 12; % decay window length
+    end
     in.opt.MemParam = {'Limited', win, 'Decay', deca};
     in.s = seq;
     in.priorp1 = [p1, 1-p1];
