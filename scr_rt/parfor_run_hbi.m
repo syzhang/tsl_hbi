@@ -34,68 +34,41 @@ function [] = parfor_run_hbi(data_path, model_str, dataset)
             fname_mod_subj = ['./output_practice/',dir_name,'/',fname_sj];
         end
 
-        if strcmp(model_str, 'io_jump_trans')
-            prior = struct('mean', [-4],'variance',5); 
-            cbm_lap(data_subj, @model_io_jump_trans, prior, fname_mod_subj, struct('numinit', 100));
-        elseif strcmp(model_str, 'io_jump_freq')
-            prior = struct('mean', [0],'variance',5); 
-            cbm_lap(data_subj, @model_io_jump_freq, prior, fname_mod_subj, struct('numinit', 500));
-        elseif strcmp(model_str, 'io_fixed_freq')
-            prior = struct('mean', [0],'variance',5); 
-            cbm_lap(data_subj, @model_io_fixed_freq, prior, fname_mod_subj, struct('numinit', 500));
-        elseif strcmp(model_str, 'io_fixed_trans')
-            prior = struct('mean', [-4],'variance',5); 
-            cbm_lap(data_subj, @model_io_fixed_trans, prior, fname_mod_subj, struct('numinit', 500));
-        elseif strcmp(model_str, 'io_jump_trans_ss')
+        if strcmp(model_str, 'io_jump_trans_ss')
                 prior = struct('mean', [-4],'variance',5); 
-                cbm_lap(data_subj, @model_io_jump_trans_ss, prior, fname_mod_subj, struct('numinit', 100));
+                cbm_lap(data_subj, @model_io_jump_trans_ss, prior, fname_mod_subj, struct('numinit', 50));
         elseif strcmp(model_str, 'io_jump_freq_ss')
             prior = struct('mean', [0],'variance',5); 
-            cbm_lap(data_subj, @model_io_jump_freq_ss, prior, fname_mod_subj, struct('numinit', 500));
+            cbm_lap(data_subj, @model_io_jump_freq_ss, prior, fname_mod_subj, struct('numinit', 100));
         elseif strcmp(model_str, 'io_fixed_freq_ss')
             prior = struct('mean', [0],'variance',5); 
-            cbm_lap(data_subj, @model_io_fixed_freq_ss, prior, fname_mod_subj, struct('numinit', 500));
+            cbm_lap(data_subj, @model_io_fixed_freq_ss, prior, fname_mod_subj, struct('numinit', 100));
         elseif strcmp(model_str, 'io_fixed_trans_ss')
             prior = struct('mean', [-4],'variance',5); 
-            cbm_lap(data_subj, @model_io_fixed_trans_ss, prior, fname_mod_subj, struct('numinit', 500));
-        % elseif strcmp(model_str, 'io_jump_trans_srp')
-        %     prior = struct('mean', [-4],'variance',5); 
-        %     cbm_lap(data_subj, @model_io_jump_trans_srp, prior, fname_mod_subj, struct('numinit', 100));
-        % elseif strcmp(model_str, 'io_jump_freq_srp')
-        %     prior = struct('mean', [0],'variance',5); 
-        %     cbm_lap(data_subj, @model_io_jump_freq_srp, prior, fname_mod_subj, struct('numinit', 500));
-        % elseif strcmp(model_str, 'io_fixed_freq_srp')
-        %     prior = struct('mean', [0],'variance',5); 
-        %     cbm_lap(data_subj, @model_io_fixed_freq_srp, prior, fname_mod_subj, struct('numinit', 500));
-        % elseif strcmp(model_str, 'io_fixed_trans_srp')
-        %     prior = struct('mean', [-4],'variance',5); 
-        %     cbm_lap(data_subj, @model_io_fixed_trans_srp, prior, fname_mod_subj, struct('numinit', 500));
-        elseif strcmp(model_str, 'io_jump_trans_std')
+            cbm_lap(data_subj, @model_io_fixed_trans_ss, prior, fname_mod_subj, struct('numinit', 100));
+        elseif strcmp(model_str, 'io_jump_freq_std1')
+            prior = struct('mean', [0],'variance',5); 
+            cbm_lap(data_subj, @model_io_jump_freq_std1, prior, fname_mod_subj, struct('numinit', 100));
+        elseif strcmp(model_str, 'io_jump_trans_std1')
             prior = struct('mean', [-4],'variance',5); 
-            cbm_lap(data_subj, @model_io_jump_trans_std, prior, fname_mod_subj, struct('numinit', 100));
-    elseif strcmp(model_str, 'io_jump_freq_std1')
-        prior = struct('mean', [0],'variance',5); 
-        cbm_lap(data_subj, @model_io_jump_freq_std1, prior, fname_mod_subj, struct('numinit', 500));
-    elseif strcmp(model_str, 'io_jump_trans_std1')
-        prior = struct('mean', [-4],'variance',5); 
-        cbm_lap(data_subj, @model_io_jump_trans_std1, prior, fname_mod_subj, struct('numinit', 100));
-    elseif strcmp(model_str, 'io_fixed_freq_std1')
-        prior = struct('mean', [0],'variance',5); 
-        cbm_lap(data_subj, @model_io_fixed_freq_std1, prior, fname_mod_subj, struct('numinit', 500));
-    elseif strcmp(model_str, 'io_fixed_trans_std1')
-        prior = struct('mean', [-4],'variance',5); 
-        cbm_lap(data_subj, @model_io_fixed_trans_std1, prior, fname_mod_subj, struct('numinit', 500));
-    elseif strcmp(model_str, 'io_jump_trans_srp1')
-        prior = struct('mean', [-4],'variance',5); 
-        cbm_lap(data_subj, @model_io_jump_trans_srp1, prior, fname_mod_subj, struct('numinit', 100));
-    elseif strcmp(model_str, 'io_jump_freq_srp1')
-        prior = struct('mean', [0],'variance',5); 
-        cbm_lap(data_subj, @model_io_jump_freq_srp1, prior, fname_mod_subj, struct('numinit', 500));
-    elseif strcmp(model_str, 'io_fixed_freq_srp1')
-        prior = struct('mean', [0],'variance',5); 
-        cbm_lap(data_subj, @model_io_fixed_freq_srp1, prior, fname_mod_subj, struct('numinit', 500));
-    elseif strcmp(model_str, 'io_fixed_trans_srp1')
-        prior = struct('mean', [-4],'variance',5); 
-        cbm_lap(data_subj, @model_io_fixed_trans_srp1, prior, fname_mod_subj, struct('numinit', 500));
+            cbm_lap(data_subj, @model_io_jump_trans_std1, prior, fname_mod_subj, struct('numinit', 50));
+        elseif strcmp(model_str, 'io_fixed_freq_std1')
+            prior = struct('mean', [0],'variance',5); 
+            cbm_lap(data_subj, @model_io_fixed_freq_std1, prior, fname_mod_subj, struct('numinit', 100));
+        elseif strcmp(model_str, 'io_fixed_trans_std1')
+            prior = struct('mean', [-4],'variance',5); 
+            cbm_lap(data_subj, @model_io_fixed_trans_std1, prior, fname_mod_subj, struct('numinit', 100));
+        elseif strcmp(model_str, 'io_jump_trans_srp1')
+            prior = struct('mean', [-4],'variance',5); 
+            cbm_lap(data_subj, @model_io_jump_trans_srp1, prior, fname_mod_subj, struct('numinit', 50));
+        elseif strcmp(model_str, 'io_jump_freq_srp1')
+            prior = struct('mean', [0],'variance',5); 
+            cbm_lap(data_subj, @model_io_jump_freq_srp1, prior, fname_mod_subj, struct('numinit', 100));
+        elseif strcmp(model_str, 'io_fixed_freq_srp1')
+            prior = struct('mean', [0],'variance',5); 
+            cbm_lap(data_subj, @model_io_fixed_freq_srp1, prior, fname_mod_subj, struct('numinit', 100));
+        elseif strcmp(model_str, 'io_fixed_trans_srp1')
+            prior = struct('mean', [-4],'variance',5); 
+            cbm_lap(data_subj, @model_io_fixed_trans_srp1, prior, fname_mod_subj, struct('numinit', 100));
         end
 end

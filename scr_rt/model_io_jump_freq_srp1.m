@@ -23,7 +23,7 @@ function [loglik] = model_io_jump_freq_srp1(parameters, subject)
     p = out.surprise(:); % prob given current stim and surprise
 
     % regress
-    BIC = regress_prob(rt, rating, p(:), sess, parameters); 
+    BIC = regress_prob(rt, rating, p(:), sess, seq, parameters); 
     loglik = -BIC; % negative BIC=loglik
 
 end

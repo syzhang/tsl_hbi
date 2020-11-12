@@ -26,17 +26,33 @@ function [ep, pep] = run_compare(output_dir)
 
     % save output
     T = table(lap_names', f(:), ep(:), pep(:), 'VariableNames',{'model_name','model_frequency','exceedance_prob', 'protected_exceedance_prob'});
-    if contains(output_dir, 'practice')
-        writetable(T,'./output/practice.csv')
+    if contains(output_dir, 'rt')
+        if contains(output_dir, 'practice')
+            writetable(T,'./output_rt/practice.csv')
+        else
+            writetable(T,'./output_rt/fmri.csv')
+        end
     else
-        writetable(T,'./output/fmri.csv')
+        if contains(output_dir, 'practice')
+            writetable(T,'./output/practice.csv')
+        else
+            writetable(T,'./output/fmri.csv')
+        end
     end
 
     % save subject stats
     TT = array2table(posterior.r','VariableNames',lap_names);
-    if contains(output_dir, 'practice')
-        writetable(TT,'./output/practice_subject.csv')
+    if contains(output_dir, 'rt')
+        if contains(output_dir, 'practice')
+            writetable(TT,'./output_rt/practice_subject.csv')
+        else
+            writetable(TT,'./output_rt/fmri_subject.csv')
+        end
     else
-        writetable(TT,'./output/fmri_subject.csv')
+        if contains(output_dir, 'practice')
+            writetable(TT,'./output/practice_subject.csv')
+        else
+            writetable(TT,'./output/fmri_subject.csv')
+        end
     end
 end

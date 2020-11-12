@@ -5,10 +5,16 @@ import os, sys
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn
+import seaborn as sns
 
-def funcname(parameter_list):
+def plot_bms_freq(input_csv):
     """
-    docstring
+    plot bms model frequency
     """
-pass
+    df = pd.read_csv(input_csv,index_col=None)
+    f = df.sort_values('model_frequency', ascending=False)[['model_frequency','exceedance_prob']].plot.bar()
+    f.get_figure().savefig('./figs/fmri_freq.pdf')
+
+if __name__ == "__main__":
+    plot_bms_freq('./output/fmri.csv')    
+    

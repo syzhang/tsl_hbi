@@ -1,0 +1,3 @@
+model_name,model_frequency,exceedance_prob,protected_exceedance_prob
+random,0.0191597326045719,0,0.000891876851736916
+rw,0.980840267395428,1,0.999108123148263

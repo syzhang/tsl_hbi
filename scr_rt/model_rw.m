@@ -8,7 +8,7 @@ function [loglik] = model_rw(parameters, subject)
     % unpack data
     seq = subject.seq; % 1 for l, 2 for h
     sess = subject.session; % sessions
-    rating = subject.p1; % subject ratings
+    rating = subject.prob_abs; % subject ratings
     rt = subject.rt; % rating RT
 
     % number of trials
@@ -35,7 +35,7 @@ function [loglik] = model_rw(parameters, subject)
     p = assoc_rec;
 
     % regress
-    BIC = regress_prob(rt, rating, p(:), sess, parameters); 
+    BIC = regress_prob(rt, rating, p(:), sess, seq, parameters); 
     loglik = -BIC; % negative BIC=loglik
 
 end
