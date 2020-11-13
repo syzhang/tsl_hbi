@@ -22,7 +22,8 @@ function [] = parfor_run_hbi(data_path, model_str, dataset)
     sj_n = length(data);
 
     % parfor (n = 1:sj_n, 8) %max 16 cores
-    for n = 1:sj_n
+    % for n = 1:sj_n
+    for n = 19:sj_n
         % the input data should be the data of subject n
         data_subj = data(n);
 
