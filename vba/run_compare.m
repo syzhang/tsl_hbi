@@ -15,6 +15,7 @@ function [ep, pep] = run_compare(output_dir)
     end
 
     % BMS
+    lap_paths
     options = [];
     [posterior, out] = compare_bms(lap_paths, options);
     % model frequency

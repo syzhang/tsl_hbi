@@ -3,9 +3,9 @@ function [posterior, out] = compare_bms(lap_names, options)
 % lap_names: cell of lap file path
     
     % add cmb/io to path
-    cd ../../../MATLAB/VBA-toolbox
-    VBA_setup();
-    cd ../../tsl/tsl_hbi/vba
+    % cd ../../../MATLAB/VBA-toolbox
+    % VBA_setup();
+    % cd ../../tsl/tsl_hbi/vba
 
     % load lap files
     evidence_mat = [];
