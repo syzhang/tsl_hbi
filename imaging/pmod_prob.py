@@ -10,7 +10,7 @@ from nipype.interfaces.fsl import Info
 from nipype.algorithms.misc import Gunzip
 from nipype import Workflow, Node
 import nilearn.plotting
-import numpy
+import numpy as np
 import pandas as pd
 import nibabel
 import matplotlib.pyplot as plt
@@ -20,6 +20,7 @@ from pain_compare import first_level, second_level, list_subject
 def subjectinfo(subject_id):
     """define individual subject info"""
     import pandas as pd
+    import numpy as np
     from nipype.interfaces.base import Bunch
     
     def construct_sj(trialinfo, subject_id, run_num, cond_name):
@@ -33,8 +34,11 @@ def subjectinfo(subject_id):
 
     def select_confounds(subject_id, run_num):
         """import confounds tsv files"""
-        confounds_dir = f'/data/sub-%02d/func/' % int(subject_id)
-        confounds_file = confounds_dir+f'sub-%02d_task-tsl_run-%d_desc-confounds_timeseries.tsv' % (int(subject_id), int(run_num))
+        # works on cam hpc only
+        # confounds_dir = f'/data/sub-%02d/func/' % int(subject_id)
+        # confounds_file = confounds_dir+f'sub-%02d_task-tsl_run-%d_desc-confounds_timeseries.tsv' % (int(subject_id), int(run_num))
+        # works on jal
+        confounds_file = f'/confounds/sub-{int(subject_id):02d}_task-tsl_run-{int(run_num):d}_desc-confounds_timeseries.tsv'
         conf_df = pd.read_csv(confounds_file, sep='\t')
         return conf_df
 
@@ -61,7 +65,8 @@ def subjectinfo(subject_id):
     'a_comp_cor_00', 'a_comp_cor_01', 'a_comp_cor_02', 'a_comp_cor_03', 'a_comp_cor_04', 'a_comp_cor_05', 'cosine00', 'cosine01', 'cosine02', 'cosine03', 'cosine04', 'cosine05',
     'trans_x', 'trans_y', 'trans_z', 'rot_x','rot_y','rot_z']
 
-    alltrialinfo = pd.read_csv('/code/model_gen/output/fmri_io_jump_freq.csv')
+    # alltrialinfo = pd.read_csv('/code/model_gen/output/fmri_io_jump_freq.csv')
+    alltrialinfo = pd.read_csv('/code/model_gen/output/fmri_rw.csv')
     alltrialinfo.head()
     
     subject_info = []
@@ -101,16 +106,17 @@ def subjectinfo(subject_id):
 
 
 if __name__ == "__main__":
-    data_dir = '/data'
     code_dir = '/code'
     experiment_dir = '/output'
-    output_1st_dir = '1stLevel_io_jump_freq'
-    output_2nd_dir = '2ndLevel_io_jump_freq_FDR0001'
-    working_dir = 'workingdir'
     
     # define experiment info
     TR = 2.
-    subject_list = list_subject(data_dir=data_dir)
+    subject_list = [f'{int(sys.argv[1]):02d}']
+    
+    # define model name
+    model_name = sys.argv[2]
+    output_1st_dir = '1stLevel_' + model_name
+    print(f'current subject: {subject_list}, model: {model_name}')
 
     # define contrasts
     # pmod contrasts
@@ -120,10 +126,5 @@ if __name__ == "__main__":
 
     # run first level
     l1analysis = first_level(TR, contrast_list, subject_list, 
-                experiment_dir, output_1st_dir)
+                experiment_dir, output_1st_dir, subjectinfo)
     l1analysis.run('MultiProc')
-
-    # run second level
-    conname_list = ['con_0001', 'con_0002']
-    l2analysis = second_level(conname_list, experiment_dir, output_2nd_dir, mask_path='/data/group_mask.nii.gz')
-    l2analysis.run('MultiProc')

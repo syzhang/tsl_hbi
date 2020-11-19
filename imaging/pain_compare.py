@@ -16,7 +16,7 @@ import nibabel
 import matplotlib.pyplot as plt
 
 def first_level(TR, contrast_list, subject_list, 
-                experiment_dir, output_dir):
+                experiment_dir, output_dir, subjectinfo_func, working_dir='workingdir'):
     """define first level model"""
     # SpecifyModel - Generates SPM-specific Model
     modelspec = Node(SpecifySPMModel(concatenate_runs=False,
@@ -43,7 +43,7 @@ def first_level(TR, contrast_list, subject_list,
     # Get Subject Info - get subject specific condition information
     getsubjectinfo = Node(Function(input_names=['subject_id'],
                                 output_names=['subject_info'],
-                                function=subjectinfo),
+                                function=subjectinfo_func),
                         name='getsubjectinfo')
 
     # Infosource - a function free node to iterate over the list of subject names
@@ -103,7 +103,7 @@ def first_level(TR, contrast_list, subject_list,
                         ])
     return l1analysis
 
-def second_level(contrast_list, experiment_dir, output_dir, mask_path='/data/group_mask.nii.gz'):
+def second_level(contrast_list, experiment_dir, first_level_dir, output_dir, mask_path='/data/group_mask.nii.gz', working_dir='workingdir'):
     """define second level model"""
     # Gunzip - unzip the mask image
     gunzip = Node(Gunzip(in_file=mask_path), name="gunzip")
@@ -138,7 +138,7 @@ def second_level(contrast_list, experiment_dir, output_dir, mask_path='/data/gro
     infosource.iterables = [('contrast_id', contrast_list)]
 
     # SelectFiles - to grab the data (alternativ to DataGrabber)
-    firstlev_dir = opj(experiment_dir, '1stLevel_nomask', '1stLevel')
+    firstlev_dir = opj(experiment_dir, first_level_dir, '1stLevel')
     templates = {'cons': opj(firstlev_dir, 'sub-*',
                             '{contrast_id}.nii')}
     selectfiles = Node(SelectFiles(templates,
@@ -298,7 +298,6 @@ def find_runs(subject_id):
 
 
 if __name__ == "__main__":
-    data_dir = '/data'
     code_dir = '/code'
     experiment_dir = '/output'
     output_1st_dir = '1stLevel_nomask'
@@ -308,7 +307,7 @@ if __name__ == "__main__":
     
     # define experiment info
     TR = 2.
-    subject_list = list_subject(data_dir=data_dir)
+    subject_list = list_subject(data_dir=opj(experiment_dir, 'smooth_nomask', 'preproc'))
 
     # define contrasts
     # condition names
@@ -323,10 +322,10 @@ if __name__ == "__main__":
 
     # run first level
     # l1analysis = first_level(TR, contrast_list, subject_list, 
-    #             experiment_dir, output_1st_dir)
+    #             experiment_dir, output_1st_dir, subjectinfo)
     # l1analysis.run('MultiProc')
 
     # run second level
     conname_lsit = ['con_0001', 'con_0002', 'con_0003', 'con_0004', 'con_0005']
-    l2analysis = second_level(conname_lsit, experiment_dir, output_2nd_dir, mask_path='/data/group_mask.nii.gz')
+    l2analysis = second_level(conname_lsit, experiment_dir, output_1st_dir, output_2nd_dir, mask_path='/output/group_mask.nii.gz')
     l2analysis.run('MultiProc')
