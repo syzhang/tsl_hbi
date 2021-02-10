@@ -6,3 +6,4 @@ scr*/output_practice/lap_*/
 .ipynb_checkpoints
 settings.json
 __pycache__/
+stan/
