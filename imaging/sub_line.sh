@@ -43,3 +43,6 @@ fsl_sub -T 10 -R 80 singularity run --cleanenv -B $OUTDIR:/output,$CODEDIR:/code
 NBDIR=/home/fs0/syzhang/scratch/tsl/tsl_data/
 #debug
 singularity run --cleanenv -B $OUTDIR:/output,$CODEDIR:/code,$CFDIR:/confounds,$NBDIR:/notebook nipype.simg 
+
+# matlab
+fsl_sub -q short.q matlab -singleCompThread -nodisplay -nosplash \< mytask.m
