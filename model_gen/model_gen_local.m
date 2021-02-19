@@ -1,0 +1,57 @@
+function [] = model_gen_local(csv_name, model_names)
+    % generate model output given model and dataset
+    % csv_name - fmri.csv, practice.csv
+    % add io to path
+    addpath('../../../MATLAB/MinimalTransitionProbsModel/IdealObserversCode');
+
+    output_dir = '../model_gen/params/';
+    csv_file = [output_dir, csv_name];
+
+    df = readtable(csv_file);
+    % load data
+    data_set = split(csv_name,'.');
+    data_path = ['../data/',data_set{1},'_behavioural.mat'];
+    fdata = load(data_path);
+    data  = fdata.subj;
+    sj_n = length(data);
+
+    % load params (not transformed)
+    if isempty(model_names)
+        model_names = unique(df.model);
+    end
+    for m = 1:length(model_names)
+        model_str = model_names{m};
+        df_tmp = df(ismember(df.model,model_names{m}),:);
+        parameters = df_tmp.parameters;
+        % apply model
+        p_out = [];
+        psurp_out = [];
+        sj_out = [];
+        sess_out = [];
+        p1_out = [];
+        runtime_out = [];
+        start_idx = 1;
+        for i = 1:sj_n
+            subj_data = data{i};
+            end_idx = start_idx+length(subj_data.seq)-1;
+            sj_out(start_idx:end_idx) = subj_data.subject;
+            sess_out(start_idx:end_idx) = subj_data.session;
+            runtime_out(start_idx:end_idx) = subj_data.runtime;
+            p1_out(start_idx:end_idx) = subj_data.p1;
+            % apply model
+            if strcmp(model_str, 'subjects_io_jump_freq')
+                [p, p_surp] = model_io_jump_freq(parameters(i), subj_data);
+            elseif strcmp(model_str, 'rw')
+                [p, p_surp] = model_rw(parameters(i), subj_data);
+            end
+            % append output
+            % [start_idx, end_idx, length(p)]
+            p_out(start_idx:end_idx) = p;
+            psurp_out(start_idx:end_idx) = p_surp;
+            start_idx = start_idx + length(subj_data.seq);
+        end
+        T = table(sj_out(:), sess_out(:), runtime_out(:), p1_out(:), p_out(:), psurp_out(:), 'VariableNames',{'subject','session','runtime','p1','pmod', 'pmod_surprise'});
+        save_path = ['./local_output/',data_set{1},'_',model_str,'.csv'];
+        writetable(T,save_path);
+    end        
+end
