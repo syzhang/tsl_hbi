@@ -27,6 +27,8 @@ function [] = model_gen(model_str, dataset)
     % apply model
     p_out = [];
     psurp_out = [];
+    psd_out = [];
+    ppe_out = [];
     sj_out = [];
     sess_out = [];
     p1_out = [];
@@ -41,17 +43,20 @@ function [] = model_gen(model_str, dataset)
         p1_out(start_idx:end_idx) = subj_data.p1;
         % apply model
         if strcmp(model_str, 'io_jump_freq')
-            [p, p_surp] = model_io_jump_freq(parameters, subj_data);
+            [p1_mean, p_surp, p1_sd, p_distUpdate] = model_io_jump_freq(parameters, subj_data);
         elseif strcmp(model_str, 'rw')
-            [p, p_surp] = model_rw(parameters, subj_data);
+            [p1_mean, p_surp, p_distUpdate] = model_rw(parameters, subj_data);
+            p1_sd = zeros(length(p1_mean),1);
         end
         % append output
-        [start_idx, end_idx, length(p)]
-        p_out(start_idx:end_idx) = p;
+        %[start_idx, end_idx, length(p1_sd)]
+        p_out(start_idx:end_idx) = p1_mean;
         psurp_out(start_idx:end_idx) = p_surp;
+        psd_out(start_idx:end_idx) = p1_sd;
+        ppe_out(start_idx:end_idx) = p_distUpdate;
         start_idx = start_idx + length(subj_data.seq);
     end
-    T = table(sj_out(:), sess_out(:), runtime_out(:), p1_out(:), p_out(:), psurp_out(:), 'VariableNames',{'subject','session','runtime','p1','pmod', 'pmod_surprise'});
+    T = table(sj_out(:), sess_out(:), runtime_out(:), p1_out(:), p_out(:), psurp_out(:), psd_out(:), ppe_out(:), 'VariableNames',{'subject','session','runtime','p1','pmod_mean', 'pmod_surprise', 'pmod_sd', 'pmod_pe'});
     save_path = ['./output/',dataset,'_',model_str,'.csv'];
     writetable(T,save_path);
                 
