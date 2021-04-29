@@ -1,6 +1,6 @@
 *.out
-matlab.e*
-matlab.o*
+matlab.*
+model_fit/output*/
 scr*/output/lap_*/
 scr*/output_practice/lap_*/
 .ipynb_checkpoints
