@@ -2,7 +2,7 @@ function [loglik] = model_io_fixed_trans(parameters, subject)
 % IO model with no jump, learning transition
 
     nd_p1 = parameters(1);
-    p1 = 1 / (1 + exp(-nd_p1)); 
+    p1_prior = 1 / (1 + exp(-nd_p1)); 
 
     % unpack data
     seq = subject.seq; % 1 for l, 2 for h
@@ -21,7 +21,7 @@ function [loglik] = model_io_fixed_trans(parameters, subject)
     end
     in.opt.MemParam = {'Limited', win, 'Decay', deca};
     in.s = seq;
-    in.priorp1 = [p1, 1-p1];
+    in.priorp1 = [p1_prior, 1-p1_prior];
     in.verbose = 0;
     in.opt.pgrid = 0:0.05:1; % reduce from 100 to 20 speed up
 
