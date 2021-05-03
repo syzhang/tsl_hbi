@@ -3,9 +3,9 @@ function df = run_compare_local(csv_name, model_names)
 % csv_name - fmri.csv, fmri_rt.csv, practice.csv, practice_rt.csv
 
     % add vba to path
-    cd ../../../MATLAB/VBA-toolbox
-    VBA_setup();
-    cd ../../tsl/tsl_hbi/model_comparison
+    % cd ../../../MATLAB/VBA-toolbox
+    % VBA_setup();
+    % cd ../../tsl/tsl_hbi/model_comparison
     
     output_dir = './params/';
     csv_file = [output_dir, csv_name];

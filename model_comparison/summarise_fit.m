@@ -43,14 +43,15 @@ function [lap_paths] = summarise_fit(data_set)
             nll_mat = [nll_mat; mean(tmp.fval_tmp)];
             sj_mat = [sj_mat; str2num(sj_name)];
             names_mat = [names_mat; {lap_names{i}}];
-            params_mat = [params_mat; mean(tmp.parameters_tmp)];
-            transparam_mat = [transparam_mat; 1 / (1 + exp(-mean(tmp.parameters_tmp)))];
+            % params_mat = [params_mat; mean(tmp.parameters_tmp)];
+            % transparam_mat = [transparam_mat; 1 / (1 + exp(-mean(tmp.parameters_tmp)))];
             loglik_mat = [loglik_mat; -mean(tmp.fval_tmp)];
         end
     end
 
     % save to csv
-    T = table(names_mat(:), sj_mat(:), loglik_mat(:), nll_mat(:), params_mat(:), transparam_mat(:), 'VariableNames',{'model','subject','log_evidence', 'nll','parameters','transformed_parameters'});
+    T = table(names_mat(:), sj_mat(:), loglik_mat(:), nll_mat(:), 'VariableNames',{'model','subject','log_evidence', 'nll'});
+    % T = table(names_mat(:), sj_mat(:), loglik_mat(:), nll_mat(:), params_mat(:), transparam_mat(:), 'VariableNames',{'model','subject','log_evidence', 'nll','parameters','transformed_parameters'});
     save_path = ['./params/',data_set,'.csv'];
     writetable(T,save_path);
 end

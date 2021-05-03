@@ -23,7 +23,7 @@ function run_fmincon_fit(subj_id, model_str, data_set)
     % fmincon settings
     options = optimset('Display', 'off', 'FunValCheck','on');
     % set bounds and random start points
-    [lb, ub, start_point]= set_boundsp(model_str, chunk_size);
+    [lb, ub, start_point, A, b]= set_boundsp(model_str, chunk_size);
     % initialise
     parameters_tmp=nan(chunk_size, size(start_point,2));
     fval_tmp=nan(1,chunk_size);
@@ -37,7 +37,7 @@ function run_fmincon_fit(subj_id, model_str, data_set)
     for aa = 1:chunk_size
         disp(['Currently running chunk ', num2str(aa)])
         [parameters_tmp(aa, :),fval_tmp(aa),exit_flag_tmp(aa),output_tmp{aa}, lambda_tmp{aa}, gradient_tmp(aa, :), hessian_tmp(aa, :,:)] = ...
-            fmincon(@(parameters)eval_model(parameters, data, model_str), start_point(aa,:),[],[],[],[],lb,ub,[],options);
+            fmincon(@(parameters)eval_model(parameters, data, model_str), start_point(aa,:),A, b,[],[],lb,ub,[],options);
     end
     sv_file= [output_dir,'/fit_subject_' num2str(subj_num, '%02d'),'.mat'];
     save(sv_file, 'parameters_tmp', 'fval_tmp');
