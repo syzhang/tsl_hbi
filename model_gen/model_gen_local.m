@@ -4,7 +4,8 @@ function [] = model_gen_local(csv_name, model_names)
     % add io to path
     addpath('../../../MATLAB/MinimalTransitionProbsModel/IdealObserversCode');
 
-    output_dir = '../model_gen/params/';
+    % output_dir = '../model_gen/params/';
+    output_dir = '../model_comparison/params/';
     csv_file = [output_dir, csv_name];
 
     df = readtable(csv_file);
@@ -39,11 +40,14 @@ function [] = model_gen_local(csv_name, model_names)
             runtime_out(start_idx:end_idx) = subj_data.runtime;
             p1_out(start_idx:end_idx) = subj_data.p1;
             % apply model
-            if strcmp(model_str, 'subjects_io_jump_freq')
+            % if strcmp(model_str, 'subjects_io_jump_freq')
+            if strcmp(model_str, 'io_jump_freq')
                 [p1_mean, p_surp, p1_sd, p_distUpdate] = model_io_jump_freq(parameters(i), subj_data);
+            elseif strcmp(model_str, 'io_jump_trans')
+                [p1_mean, p_surp, p1_sd, p_distUpdate] = model_io_jump_trans(parameters(i), subj_data);
             elseif strcmp(model_str, 'rw')
                 [p1_mean, p_surp, p_distUpdate] = model_rw(parameters(i), subj_data);
-                p1_sd = zeros(length(p1_mean))
+                p1_sd = zeros(size(p1_mean));
             end
             % append output
             % [start_idx, end_idx, length(p)]
