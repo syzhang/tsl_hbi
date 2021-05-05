@@ -1,4 +1,4 @@
-function [p1_mean, p_surp, p1_sd, p_distUpdate] = model_io_jump_freq(parameters, subject)
+function [p1_mean, p_surp, p1_sd, p_distUpdate, p_fulldist] = model_io_jump_freq(parameters, subject)
 % IO model with jumps
 
     nd_pj = parameters(1); % normally distributed
@@ -24,6 +24,8 @@ function [p1_mean, p_surp, p1_sd, p_distUpdate] = model_io_jump_freq(parameters,
     p_surp = out.surprise(:); % prob given current stim and surprise
     % calculate predcition error as KL divergence of successive posterior mean
     p_distUpdate = out.distUpdate(:); 
+    % distribution
+    p_fulldist = out.p1_dist;
     % regress
     % BIC = regress_prob(y, p, sess, parameters); 
     % loglik = -BIC; % negative BIC=loglik
