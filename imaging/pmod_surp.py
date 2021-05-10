@@ -66,7 +66,8 @@ def subjectinfo(subject_id):
     'trans_x', 'trans_y', 'trans_z', 'rot_x','rot_y','rot_z']
 
     # alltrialinfo = pd.read_csv('/code/model_gen/output/fmri_io_jump_freq.csv')
-    alltrialinfo = pd.read_csv('/code/model_gen/output/fmri_rw.csv')
+    # alltrialinfo = pd.read_csv('/code/model_gen/output/fmri_rw.csv')
+    alltrialinfo = pd.read_csv('/code/model_gen/local_output_mean/fmri_io_jump_freq.csv')
     alltrialinfo.head()
     
     subject_info = []
