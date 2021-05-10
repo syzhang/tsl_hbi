@@ -19,6 +19,12 @@ done
 
 for sj in {{6..11},{13..33},{36..39},{41..44}}
 do
+echo "submitted job subject $sj (prob mean)"
+fsl_sub -T 10 -R 80 singularity run --cleanenv -B $OUTDIR:/output,$CODEDIR:/code,$CFDIR:/confounds nipype.simg python /code/imaging/pmod_prob_mean.py $sj io_jf_prob_mean
+done
+
+for sj in {{6..11},{13..33},{36..39},{41..44}}
+do
 echo "submitted job subject $sj (prob)"
 fsl_sub -T 10 -R 80 singularity run --cleanenv -B $OUTDIR:/output,$CODEDIR:/code,$CFDIR:/confounds nipype.simg python /code/imaging/pmod_iorw_prob.py $sj iorw_prob
 done
@@ -61,6 +67,9 @@ fsl_sub -T 10 -R 80 singularity run --cleanenv -B $OUTDIR:/output,$CODEDIR:/code
 fsl_sub -T 10 -R 80 singularity run --cleanenv -B $OUTDIR:/output,$CODEDIR:/code,$CFDIR:/confounds nipype.simg python /code/imaging/run_2nd_level.py io_jump_freq_sd
 
 fsl_sub -T 10 -R 80 singularity run --cleanenv -B $OUTDIR:/output,$CODEDIR:/code,$CFDIR:/confounds nipype.simg python /code/imaging/run_2nd_level.py rw_pe
+
+fsl_sub -T 10 -R 80 singularity run --cleanenv -B $OUTDIR:/output,$CODEDIR:/code,$CFDIR:/confounds nipype.simg python /code/imaging/run_2nd_level.py io_jf_prob_mean
+
 
 ##############
 # debug notebook

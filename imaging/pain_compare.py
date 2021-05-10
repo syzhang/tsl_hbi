@@ -128,6 +128,7 @@ def second_level(contrast_list, experiment_dir, first_level_dir, output_dir, mas
                                 use_fwe_correction=False,
                                 extent_threshold=0,
                                 height_threshold=0.001,
+                                # height_threshold=0.05,
                                 height_threshold_type='p-value',
                                 extent_fdr_p_threshold=0.05),
                         name="level2thresh")

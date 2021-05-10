@@ -60,7 +60,7 @@ function [] = model_gen_local_mean(csv_name, model_names)
             ppe_out(start_idx:end_idx) = p_distUpdate;
             start_idx = start_idx + length(subj_data.seq);
         end
-        T = table(sj_out(:), sess_out(:), runtime_out(:), p1_out(:), p_out(:), psurp_out(:), psd_out(:), ppe_out(:), 'VariableNames',{'subject','session','runtime','p1','pmod_mean', 'pmod_surprise', 'pmod_sd', 'pmod_pe'});
+        T = table(sj_out(:), sess_out(:), runtime_out(:), p1_out(:), 1-p1_out(:), p_out(:), 1-p_out(:), psurp_out(:), psd_out(:), ppe_out(:), 'VariableNames',{'subject','session','runtime','p1', 'p2','pmod_mean', 'pmod_mean_p2', 'pmod_surprise', 'pmod_sd', 'pmod_pe'});
         save_path = ['./local_output_mean/',data_set{1},'_',model_str,'.csv'];
         writetable(T,save_path);
         % save dist for plot
