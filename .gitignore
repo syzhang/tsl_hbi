@@ -11,3 +11,4 @@ emerg/
 .DS_Store
 *_p1dist.csv
 rois/
+imaging_plot/output/
