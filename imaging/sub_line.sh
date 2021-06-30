@@ -7,6 +7,12 @@ CFDIR=/home/fs0/syzhang/scratch/TSL_fmriprep/
 # 1st level
 for sj in {{6..11},{13..33},{36..39},{41..44}}
 do
+echo "submitted job subject $sj (pain compare)"
+fsl_sub -T 10 -R 80 singularity run --cleanenv -B $OUTDIR:/output,$CODEDIR:/code,$CFDIR:/confounds nipype.simg python /code/imaging/pain_compare.py
+done
+
+for sj in {{6..11},{13..33},{36..39},{41..44}}
+do
 echo "submitted job subject $sj (surprise)"
 fsl_sub -T 10 -R 80 singularity run --cleanenv -B $OUTDIR:/output,$CODEDIR:/code,$CFDIR:/confounds nipype.simg python /code/imaging/pmod_surp.py $sj io_jf_surprise_mean
 done

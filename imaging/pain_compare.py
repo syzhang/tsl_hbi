@@ -322,9 +322,9 @@ if __name__ == "__main__":
     contrast_list = [cont01, cont02, cont03, cont04, cont05]
 
     # run first level
-    # l1analysis = first_level(TR, contrast_list, subject_list, 
-    #             experiment_dir, output_1st_dir, subjectinfo)
-    # l1analysis.run('MultiProc')
+    l1analysis = first_level(TR, contrast_list, subject_list, 
+                experiment_dir, output_1st_dir, subjectinfo)
+    l1analysis.run('MultiProc')
 
     # run second level
     conname_lsit = ['con_0001', 'con_0002', 'con_0003', 'con_0004', 'con_0005']
