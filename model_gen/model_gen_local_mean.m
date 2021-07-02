@@ -19,7 +19,7 @@ function [] = model_gen_local_mean(csv_name, model_names)
 
     % load params (not transformed)
     if isempty(model_names)
-        model_names = unique(df.model);
+        model_names = unique(df.model)
     end
     for m = 1:length(model_names)
         model_str = model_names{m};
@@ -28,6 +28,7 @@ function [] = model_gen_local_mean(csv_name, model_names)
         % calculate mean parameter
         parameters_mean = mean(parameters)
         % apply model
+        seq = [];
         p_out = [];
         psurp_out = [];
         sj_out = [];
@@ -54,13 +55,14 @@ function [] = model_gen_local_mean(csv_name, model_names)
             end
             % append output
             % [start_idx, end_idx, length(p)]
+            seq(start_idx:end_idx) = subj_data.seq;
             p_out(start_idx:end_idx) = p1_mean;
             psurp_out(start_idx:end_idx) = p_surp;
             psd_out(start_idx:end_idx) = p1_sd;
             ppe_out(start_idx:end_idx) = p_distUpdate;
             start_idx = start_idx + length(subj_data.seq);
         end
-        T = table(sj_out(:), sess_out(:), runtime_out(:), p1_out(:), 1-p1_out(:), p_out(:), 1-p_out(:), psurp_out(:), psd_out(:), ppe_out(:), 'VariableNames',{'subject','session','runtime','p1', 'p2','pmod_mean', 'pmod_mean_p2', 'pmod_surprise', 'pmod_sd', 'pmod_pe'});
+        T = table(sj_out(:), sess_out(:), runtime_out(:), seq(:), p1_out(:), 1-p1_out(:), p_out(:), 1-p_out(:), psurp_out(:), psd_out(:), ppe_out(:), 'VariableNames',{'subject','session','runtime', 'seq', 'p1', 'p2','pmod_mean', 'pmod_mean_p2', 'pmod_surprise', 'pmod_sd', 'pmod_pe'});
         save_path = ['./local_output_mean/',data_set{1},'_',model_str,'.csv'];
         writetable(T,save_path);
         % save dist for plot
