@@ -118,3 +118,12 @@ cd /notebook # go to notebook dir
 
 # matlab
 fsl_sub -q short.q matlab -singleCompThread -nodisplay -nosplash \< mytask.m
+
+
+# download from sftp
+for sj in {6..9}
+for sj in {{10..11},{13..33},{36..39},{41..44}}
+do
+# fsl_sub -T 5 bet sub-0$sj\_space-MNI152NLin2009cAsym_desc-preproc_T1w.nii.gz sub-0$sj\_bet.nii.gz
+fsl_sub -T 5 bet sub-$sj\_space-MNI152NLin2009cAsym_desc-preproc_T1w.nii.gz sub-$sj\_bet.nii.gz
+done
